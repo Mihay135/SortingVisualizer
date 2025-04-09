@@ -1,0 +1,14 @@
+.array-container {
+    position: relative;
+    display: flex;
+    margin: 0.5vw;
+    padding: 0 0.1vw 0.1vw 0.1vw;
+    border: 0.1vw solid rgba(0, 0, 255, 0.582);
+}
+
+.array-bar {
+    width: 0.5vw;
+    background-color: blue;
+    display: inline-block;
+    margin: 0 0.2vh;
+}
