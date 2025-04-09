@@ -1,7 +1,43 @@
 .nav-bar {
-  height: 6vh;
+  height: 7vh;
   width: 100vw;
-  background-color: rgba(0, 47, 255, 0.752);
+  background-color: rgba(0, 47, 255, 0.753);
   position: relative;
+  display: inline-block;
+  border: 0.1vh solid rgba(2, 40, 206, 0.753);;
+}
+
+ul{
+  text-align: left;
   display: flex;
+  margin-top: 0.5vh;
+}
+
+li{
+  list-style-type: none ;
+  text-align: center;
+  display: inline-block;
+  margin: 1vh 15vh 1vh 0;
+  padding: 0.3vh;
+  border: 0.1vw solid black;
+  border-radius: 1vh;
+  background-color: rgb(62, 34, 244);
+}
+
+li:hover{
+  background-color: rgb(36, 0, 136);
+  color: aliceblue;
+  cursor: default;
+}
+
+input{
+  border-style: none;
+  font-size: inherit;
+  background-color: rgb(62, 34, 244);
+}
+
+input:hover{
+  background-color: rgb(36, 0, 136);
+  color: aliceblue;
+  cursor: default;
 }
