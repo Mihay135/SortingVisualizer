@@ -4,11 +4,13 @@
     margin: 0.5vw;
     padding: 0 0.1vw 0.1vw 0.1vw;
     border: 0.1vw solid rgba(0, 0, 255, 0.582);
+    background-color: white;
 }
 
 .array-bar {
-    width: 0.5vw;
-    background-color: blue;
+    width: 0.1vw;
+    background-color: rgba(0, 0, 255, 0.666);
     display: inline-block;
-    margin: 0 0.2vh;
+    margin: 0 calc(0.95vw * 0.055) 0 0;
+
 }

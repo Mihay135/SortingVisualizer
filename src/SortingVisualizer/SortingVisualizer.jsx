@@ -1,6 +1,10 @@
 import React from 'react';
 import './SortingVisualizer.css';
 
+const MIN_ARRAY_VALUE = 5;
+const MAX_ARRAY_VALUE = 1000;
+var array_size = 650;
+
 export default class SortingVisualizer extends React.Component{
     constructor(props){
         super(props);
@@ -16,8 +20,8 @@ export default class SortingVisualizer extends React.Component{
 
     resetArray(){
         const array = [];
-        for(let i = 0; i < 350; i++){
-            array.push(randomIntFromInterval(5,1000));
+        for(let i = 0; i < array_size; i++){
+            array.push(randomIntFromInterval(MIN_ARRAY_VALUE,MAX_ARRAY_VALUE));
         }
         this.setState({array});
     }
@@ -26,17 +30,42 @@ export default class SortingVisualizer extends React.Component{
         const {array} = this.state;
 
         return (
+            <div>
+                <div className="nav-bar">
+                <ul>
+                <li> How To Use Sorting Visualizer</li>
+                <li>Sort Array</li>
+                <li>
+                    <div>Array Size</div>
+                    <input 
+                        type="range" 
+                        min="5" 
+                        max= {`${array_size}`}  
+                        defaultValue= {`${array_size / (3/2)}`} 
+                        class="slider" 
+                        id="myRange"
+                    >
+                    </input>
+                </li>
+                <li>Sorting Algorithms</li>
+                <li><input type='button' value="Reset Choices"></input></li>
+                <li><button onClick={() => this.resetArray()}> Generate New Array</button></li>
+                </ul>
+            </div>
             <div className="array-container">
                 {array.map((value,idx) => (
                     <div 
                         className = "array-bar" 
                         key={idx}
-                        style = {{height: `${value*0.09}vh`}}
+                        style = {{height: `${value*0.09}vh`, backgroundColor: value > 700 ?`red` : `green`}}
+                        
                     >
                     </div>
                 ))}
-
+                
             </div>
+            </div>
+            
         );
     }
 }
@@ -44,3 +73,4 @@ export default class SortingVisualizer extends React.Component{
 function randomIntFromInterval(min,max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
+  
