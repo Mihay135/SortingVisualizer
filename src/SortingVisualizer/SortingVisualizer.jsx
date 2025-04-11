@@ -4,10 +4,15 @@ import {mergeSort} from './SortingAlgorithms.js';
 
 const MIN_ARRAY_VALUE = 5;
 const MAX_ARRAY_VALUE = 1000;
-const ANIMATIONS_SPEED_MS = 1;
+const ANIMATIONS_SPEED_MS = 2;
+const ARRAY_SORT_COMPLETED_ANIMATION_SPEED_MS = ANIMATIONS_SPEED_MS * 2;
+const ARRAY_COMPLETED_PULSE_ANIMATION_SPEED_MS = 1.25;
+const NUMBER_OF_ANIMATION_PULSES = 4;
 
-var array_size = 500;
+var array_size = 300;
+var selectedAlgorithm = 0;
 var firstRender = 1;
+var functionCalled = false;
 
 export default class SortingVisualizer extends React.Component{
     constructor(props){
@@ -23,12 +28,6 @@ export default class SortingVisualizer extends React.Component{
     }
 
     resetArray(){
-        const array = [];
-        for(let i = 0; i < array_size; i++){
-            array.push(randomIntFromInterval(MIN_ARRAY_VALUE, MAX_ARRAY_VALUE));
-        }
-        this.setState({array});
-
         //When resetting the array the color must be changed to the default state
         if(firstRender != 1){
             var bars = document.getElementsByClassName('array-bar');
@@ -36,35 +35,46 @@ export default class SortingVisualizer extends React.Component{
             for(var bar of bars){
                 bar.style.backgroundColor = defaultBGC;   
             }
+            
+        }
+        
+        const array = [];
+        for(let i = 0; i < array_size; i++){
+            array.push(randomIntFromInterval(MIN_ARRAY_VALUE, MAX_ARRAY_VALUE));
+        }
+        this.setState({array});
+
+        if(functionCalled) {
+            window.location.reload();
         }
     }
 
     render(){
         const {array} = this.state;
-        const size = array.length;
+        
         firstRender = 0;
         return (
             <div>
                 <div className="nav-bar">
                     <ul>
-                        <li> How To Use Sorting Visualizer</li>
-                        <li>Sort Array</li>
-                        <li>
+                        <li><button onClick={() => this.howToUse()}>How To Use Sorting Visualizer</button> </li>
+                        <li><button onClick={() => this.sortArray()}>Sort Array</button></li>
+                        <li><button>
                             <div>Array Size Slider</div>
                             <span class="spacing"></span>
-                            <input 
-                                type="range" 
-                                min="5" 
-                                max= {`${array_size}`}  
-                                step={1}
-                                defaultValue= {`${array_size / (3/2)}`} 
-                                class="slider" 
-                                id="myRange"
-                            >
-                            </input>
+                                <input 
+                                    type="range" 
+                                    min="5" 
+                                    max= {`${array_size}`}  
+                                    step={1}
+                                    defaultValue= {`${array_size / (3/2)}`} 
+                                    class="slider" 
+                                    id="myRange"
+                                >
+                                </input>
+                            </button>
                         </li>
-                        <li><button onClick={() => this.mergeSort()}>Sorting Algorithms</button></li>
-                        <li><button>Reset Choices</button></li>
+                        <li><button onClick={() => this.sortingAlgorithmsChooser()}>Sorting Algorithms</button></li>
                         <li><button onClick={() => this.resetArray()}> Generate New Array</button></li>
                     </ul>
                 </div>
@@ -74,7 +84,7 @@ export default class SortingVisualizer extends React.Component{
                         <div 
                             className = "array-bar" 
                             key={idx}
-                            style = {{height: `${value*0.09}vh`, width: `${100/size}vw`}}
+                            style = {{height: `${value*0.09}vh`, width: `${100/array_size}vw`}}
                         >
                         </div>
                     ))}
@@ -83,6 +93,22 @@ export default class SortingVisualizer extends React.Component{
             </div>
             
         );
+    }
+
+    howToUse(){
+
+    }
+
+
+    sortingAlgorithmsChooser(){
+
+    }
+
+    sortArray(){
+        functionCalled = true;
+        if(selectedAlgorithm === 0){
+            this.mergeSort();
+        }
     }
 
     mergeSort(){
@@ -106,7 +132,40 @@ export default class SortingVisualizer extends React.Component{
                     barOneStyle.height = `${newHeight*0.09}vh`
                 }, i * ANIMATIONS_SPEED_MS);
             }
+        }
 
+        setTimeout(() => {
+            this.sortingCompletedAnimation();
+        }, animations.length * ANIMATIONS_SPEED_MS);
+    }
+
+    sortingCompletedAnimation(){
+        const arrayBars = document.getElementsByClassName('array-bar');
+        for(let i = 0; i < arrayBars.length; i++){
+            setTimeout(() => {
+                arrayBars[i].style.backgroundColor = 'lightgreen';
+            }, 0.10 * i * (ARRAY_SORT_COMPLETED_ANIMATION_SPEED_MS + ARRAY_COMPLETED_PULSE_ANIMATION_SPEED_MS));
+        }
+
+        let pulse = 0;
+
+        for(let i = 0; i < NUMBER_OF_ANIMATION_PULSES; i++){
+            setTimeout(() => {
+                for(let i = 0; i < arrayBars.length; i++){
+                    arrayBars[i].style.backgroundColor = 'turquoise';
+                }
+            }, pulse * ANIMATIONS_SPEED_MS * arrayBars.length / 3);
+    
+            pulse += ARRAY_COMPLETED_PULSE_ANIMATION_SPEED_MS;
+    
+            setTimeout(() => {
+                for(let i = 0; i < arrayBars.length; i++){
+                    arrayBars[i].style.backgroundColor = 'lightgreen';
+                }
+            }, pulse * ANIMATIONS_SPEED_MS * arrayBars.length / 3);
+            
+            pulse += ARRAY_COMPLETED_PULSE_ANIMATION_SPEED_MS;
+            functionCalled = false;
         }
     }
 }
