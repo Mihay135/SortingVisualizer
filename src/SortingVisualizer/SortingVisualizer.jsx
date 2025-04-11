@@ -62,7 +62,7 @@ export default class SortingVisualizer extends React.Component{
                         <span className='popUpTitle'>Sorting Visualizer: <span className='emphasisText'>How to Use</span></span>
                         <button class="closePopup" onClick={() => this.togglePopUp()}><span>X</span></button>
                         <span className='popUpText'></span>
-                        <button className='popUpAccept'>I understand</button>
+                        <button className='popUpAccept' onClick={() => this.togglePopUp()}>I understand</button>
                     </div>
                 </div>
                 <div class='hide-content'></div>
