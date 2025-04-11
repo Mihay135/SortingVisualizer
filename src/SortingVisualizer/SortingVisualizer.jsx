@@ -11,7 +11,7 @@ const ARRAY_COMPLETED_PULSE_ANIMATION_SPEED_MS = 1.25;
 const NUMBER_OF_ANIMATION_PULSES = 4;
 
 
-var array_size = MAX_ARRAY_SIZE/2;
+var array_size = MAX_ARRAY_SIZE/3;
 var selectedAlgorithm = 0;
 var firstRender = 1;
 var functionCalled = false;
