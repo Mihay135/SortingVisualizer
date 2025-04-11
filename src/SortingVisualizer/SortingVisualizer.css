@@ -1,3 +1,8 @@
+:root{
+    --default-bar-color: rgba(86, 86, 194, 0.666);
+}
+
+
 .nav-bar {
     height: calc(1rem + 7vh);
     width: 100vw;
@@ -96,8 +101,7 @@
 }
 
 .array-bar {
-    width: 0.1vw;
-    background-color: rgba(0, 0, 255, 0.666);
+    background-color: var(--default-bar-color);
     display: inline-block;
     margin: 0 calc(0.95vw * 0.055) 0 0;
 }
