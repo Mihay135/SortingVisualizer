@@ -46,28 +46,29 @@ export function bubbleSort(array){
     const animations = [];
     let swapped;
     let auxilaryArray = array.slice();
+    let last = auxilaryArray.length - 1;
     do {
         swapped = false;
-        for (let i = 0; i < auxilaryArray.length - 1; i++) {
+        for (let i = 0; i < last; i++) {
+           
             animations.push([i, i + 1]);
             animations.push([i, i + 1]);
+           
             if(auxilaryArray[i] > auxilaryArray[i + 1]){
                 let tmp = auxilaryArray[i];
                 auxilaryArray[i] = auxilaryArray[i + 1];
                 auxilaryArray[i + 1] = tmp;
                 swapped = true;
-                animations.push([i, auxilaryArray[i]]);
-                animations.push([i+1, auxilaryArray[i+1]]);
+                animations.push([i, auxilaryArray[i], i+1, auxilaryArray[i+1]]);
+                
             }else{
-                animations.push([null]);
-                animations.push([null]);
+                animations.push(null);
             }
         }
+        last--;
     } while (swapped);
 
-    console.log(array);
-    console.log(auxilaryArray);
-    console.log(animations);
+    
     return animations;
 }
 

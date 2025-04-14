@@ -12,6 +12,7 @@ const NUMBER_OF_ANIMATION_PULSES = 4;
 
 var array_size = MAX_ARRAY_SIZE/3;
 var ANIMATIONS_SPEED_MS = (5/3)*(MAX_ARRAY_SIZE / array_size);
+
 var selectedAlgorithm = 0;
 var firstRender = 1;
 var functionCalled = false;
@@ -165,8 +166,10 @@ export default class SortingVisualizer extends React.Component{
             if(btn.classList.contains('active')){
                 btn.classList.remove('active');
                 buttons[previous+2].style.backgroundColor = 'transparent'
+                buttons[selectedAlgorithm+2].style.color = 'black'
             }else{
                 buttons[selectedAlgorithm+2].style.backgroundColor = 'rgb(46, 8, 150)'
+                buttons[selectedAlgorithm+2].style.color = 'aliceblue'
                 btn.classList.add('active');
             }
         
@@ -257,22 +260,40 @@ export default class SortingVisualizer extends React.Component{
             for(let i = 0; i < animations.length; i++){
                 const arrayBars = document.getElementsByClassName('array-bar');
                 const isColorChange = i % 3 !== 2;
-                if(isColorChange){
+                if(isColorChange && animations[i] !== null){
                     const [barOneIndex, barTwoIndex] = animations[i];
                     const barOneStyle = arrayBars[barOneIndex].style;
                     const barTwoStyle = arrayBars[barTwoIndex].style;
-                    const color = i % 2 === 0 ? 'red' : 'turquoise';
+                    const color = i % 3 === 0 ? 'red' : 'turquoise';
                     setTimeout(() => {
                         barOneStyle.backgroundColor = color;
                         barTwoStyle.backgroundColor = color;
-                    }, i * ANIMATIONS_SPEED_MS);
-                
+                    }, (i * ANIMATIONS_SPEED_MS));
+                    
+                }else{
+                    if(animations[i] !== null && animations[i] !== undefined){
+                        const [barOneIndex, barOneValue, barTwoIndex, barTwoValue] = animations[i];
+                        console.log(animations[i]);
+                        setTimeout(() => {
+                            const barOne = arrayBars[barOneIndex];
+                            const barTwo = arrayBars[barTwoIndex];
+                            barOne.style.height = `${barOneValue*0.09}vh`;
+                            barOne.style.backgroundColor = 'turquoise';
+                            barTwo.style.height = `${barTwoValue*0.09}vh`;
+                            barTwo.style.backgroundColor = 'turquoise';
+                        }, (i* ANIMATIONS_SPEED_MS));
+                        
+                    }
                 }
             }
+            isSorted = true;
+            setTimeout(() => {
+                this.sortingCompletedAnimation();
+            }, ((animations.length - 1) * ANIMATIONS_SPEED_MS));
         }else{
             setTimeout(() => {
                 this.sortingCompletedAnimation();
-            }, ANIMATIONS_SPEED_MS);
+            }, ((animations.length - 1)* ANIMATIONS_SPEED_MS));
         }
     }
 

@@ -217,10 +217,7 @@ li:has(#sortingAlgorithmsDropdownBtn){
     margin: 0 0 0 -1vw;
   }
 
-  button.activebtn{
-    background-color: #6a0103;
-    color: aliceblue;
-  }
+  
 
   .drop-wrapper{
     position: relative;
@@ -242,7 +239,7 @@ li:has(#sortingAlgorithmsDropdownBtn){
     margin: 0;
     width: 110%;
     height: 15%;
-    
+  
   }
 
   #dropright{
