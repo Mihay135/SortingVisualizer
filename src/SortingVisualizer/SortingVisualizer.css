@@ -125,17 +125,6 @@ li {
   border-radius: 1vh;
 
 }
-
-li #howToUseBtn {
-  margin-left: calc(-2.5vw + 4vh);
-}
-
-button:hover {
-  background-color: rgb(46, 8, 150);
-  color: aliceblue;
-  cursor: pointer;
-}
-
 li button {
   height: 100%;
   width: 100%;
@@ -148,6 +137,21 @@ li button {
   border-style: none;
   margin: 0vh calc(0.25em + 1vh) 1vh 1vh;
 }
+li #howToUseBtn {
+  margin-left: calc(-2.5vw + 4vh);
+
+}
+
+
+
+
+button:hover {
+  background-color: rgb(46, 8, 150);
+  color: aliceblue;
+  cursor: pointer;
+}
+
+
 
 .sliderDiv {
   margin-top: 0.75vh * 0.5rem;

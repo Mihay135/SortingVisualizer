@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import './SortingVisualizer.css';
-import { mergeSort } from './SortingAlgorithms.js';
-import { bubbleSort } from './SortingAlgorithms.js';
-import { heapSort } from './SortingAlgorithms.js';
+import { mergeSort, quickSort, heapSort, bubbleSort } from './SortingAlgorithms.js';
 
 const MIN_ARRAY_VALUE = 5;
 const MAX_ARRAY_VALUE = 1000;
@@ -74,7 +72,7 @@ export default class SortingVisualizer extends React.Component {
                 <div className='content'>
                     <div className="nav-bar">
                         <ul>
-                            <li><button id="howToUseBtn" className='showPopUp' onClick={() => this.togglePopUp()}>How To Use Sorting Visualizer</button> </li>
+                            <li><button id="howToUseBtn" className='showPopUp' onClick={() => this.togglePopUp() }><strong>How To Use Sorting Visualizer</strong></button> </li>
                             <li><button id='sortArrayBtn' onClick={() => this.sortArray()}>Sort Array</button></li>
                             <li><button>
                                 <div className='sliderDiv'>
@@ -133,9 +131,10 @@ export default class SortingVisualizer extends React.Component {
         var popUp = document.getElementsByClassName('popUp');
         var backgroundElements = document.getElementsByClassName('hide-content');
         var popUpTextSpan = document.getElementsByClassName('popUpText');
-        var popUpText = '<p>You can <span class="emphasisText">choose the number</span> of elements of the array to sort by <span class="emphasisText">using</span> the <span class="emphasisText">Array Slider</span> in the middle, it will display the current array size, as well as the minimum and maximum values allowd on the extremities of the slider. (Values in the array are randomly generated from 5 to 1000)</p>'
-        popUpText += '<p>The <span class="emphasisText">Default sorting algorithm</span> used is "<span class="emphasisText">Merge Sort</span>" but a different algorithm can be chosen by pressing the "<span class="emphasisText">Sorting Algorithms</span>" button and choosing the desired one.</p>'
-        popUpText += '<p>Lastly a new array of values can be generated on the far right by clicking "<span class="emphasisText">Generate New Array"</span> which also refreshes the page if you wish to interrupt the current animation.</br> (Note that the <span class="emphasisText">animation speed does not reflect the sorting speed on lower array sizes</span>  as it is slowed down for a better viewing experience)<br/>It is also advised to use <span class="emphasisText">"Bubble Sort"</span> on small arrays as it has a time <span class="emphasisText">complexity O(n<sup>2</sup>)</span>.</p><p>To Execute the <span class="emphasisText">Sorting</span> function Simply Click "<span class="emphasisText">Sort Array</span>" and Enjoy the animation!</p>'
+        var popUpText = '<p>You can <span class="emphasisText">choose the number of elements</span> of the array to sort by <span class="emphasisText">using</span> the <span class="emphasisText">Array Slider</span> in the middle, it will display the current array size, as well as the minimum and maximum values allowed on the extremities of the slider. (Values in the array are randomly generated from 5 to 1000)</p>'
+        popUpText += '<p>The <span class="emphasisText">Default sorting algorithm</span> used is "<span class="emphasisText">Merge Sort</span>" but a different algorithm can be <span class="emphasisText">chosen</span> by <span class="emphasisText">pressing</span> the "<span class="emphasisText">Sorting Algorithms</span>" button and choosing the desired one.</p>'
+        popUpText += '<p>Lastly a <span class="emphasisText">new array of values</span> can be generated on the far right by clicking "<span class="emphasisText">Generate New Array"</span> which also refreshes the page if you wish to interrupt the current animation.</br> (Note that the <span class="emphasisText">animation speed does not reflect the sorting speed on lower array sizes</span>  as it is slowed down for a better viewing experience)<br/>'
+        popUpText += 'It is also advised to use "<span class="emphasisText">Bubble Sort</span>" on <span class="emphasisText">small arrays</span> as it has a time <span class="emphasisText">complexity O(n<sup>2</sup>)</span>.</p><p>To <span class="emphasisText">Execute</span> the <span class="emphasisText">Sorting</span> function Simply Click "<span class="emphasisText">Sort Array</span>" and Enjoy the animation!</p>'
         if (!openPopup) {
             popUp[0].style.display = 'none';
             backgroundElements[0].style.zIndex = '0';
@@ -253,7 +252,66 @@ export default class SortingVisualizer extends React.Component {
     }
 
     quickSort() {
+        if(!isSorted){
+            animations = quickSort(this.state.array);
+            const arrayBars = document.getElementsByClassName('array-bar');
+            console.log(animations);
+            for(let i = 0; i < animations.length ; i++){
+                
+                if(animations[i].length !== 4){
+                    let color;
+                    for(let j = 0; j < 3; j++){
+                        setTimeout(() => {
+                            let arrayBar = arrayBars[animations[i][0]];
+                            let barOneValue = animations[i][1];
+                            color = j % 2 === 1 ? "turquoise" : "grey";
+                            arrayBar.style.backgroundColor = color;
+                            arrayBar.style.height = `${barOneValue * 0.09}vh`;
+                        }, (2 * (j + i - 1))*ANIMATIONS_SPEED_MS * 3);
+                        
+                    }
+                    
+                    console.log("new pivot: " + animations[i]);
+                }else{
 
+                    let barOne = arrayBars[animations[i][0]];
+                    let barOneValue = animations[i][2];
+                    let barTwo = arrayBars[animations[i][1]];
+                    let barTwoValue = animations[i][3];
+                    
+                    setTimeout(() => {
+                        barOne.style.backgroundColor = "red";
+                        barTwo.style.backgroundColor = "red";
+                    }, (( 2 * i))*ANIMATIONS_SPEED_MS * 3);
+                    
+                    
+                    setTimeout(() => {
+                        
+                        barOne.style.backgroundColor = "turquoise";
+                        barTwo.style.backgroundColor = "turquoise";
+                        barOne.style.height = `${barOneValue * 0.09}vh`;
+                        barTwo.style.height = `${barTwoValue * 0.09}vh`;
+                        // barOne.innerHTML = barOneValue ;
+                        // barTwo.innerHTML = barTwoValue ;
+                        
+                        
+                    }, (2 * i + 1) * ANIMATIONS_SPEED_MS * 3);
+                    
+                    
+
+                    
+                    console.log("new comparison: " + animations[i][0] + ", "+ animations[i][2] + ", " + animations[i][1] + ", "+animations[i][3]);
+                }
+            }
+            setTimeout(() => {
+                isSorted = true;
+                this.sortingCompletedAnimation();
+            }, ((2*animations.length) * ANIMATIONS_SPEED_MS * 3));
+        }else{
+            setTimeout(() => {
+                this.sortingCompletedAnimation();
+            }, ANIMATIONS_SPEED_MS);
+        }
     }
 
     heapSort() {
@@ -274,23 +332,23 @@ export default class SortingVisualizer extends React.Component {
                         setTimeout(() => {
                             barOneStyle.backgroundColor = color;
                             barTwoStyle.backgroundColor = color;
-                        }, ((j+2*i) * ANIMATIONS_SPEED_MS));
+                        }, (j + (i) * ANIMATIONS_SPEED_MS *3));
                     }else{
                         setTimeout(() => {
                             barOneStyle.height = `${barTwoValue * 0.09}vh`;
                             barOneStyle.backgroundColor = 'turquoise';
-                        }, ((j+2*i) * ANIMATIONS_SPEED_MS));
+                        }, (j + (i + 1) * ANIMATIONS_SPEED_MS *3));
                         setTimeout(() => {
                             barTwoStyle.height = `${barOneValue * 0.09}vh`;
                             barTwoStyle.backgroundColor = 'turquoise';
-                        }, ((j+2*i + 1) * ANIMATIONS_SPEED_MS));
+                        }, (j + (i + 1) * ANIMATIONS_SPEED_MS *3));
                     }
                 }
             }
             setTimeout(() => {
                 isSorted = true;
                 this.sortingCompletedAnimation();
-            }, ((2*animations.length + 2) * ANIMATIONS_SPEED_MS));
+            }, ((animations.length + 2) * ANIMATIONS_SPEED_MS *3));
         }else{
             setTimeout(() => {
                 this.sortingCompletedAnimation();
@@ -341,31 +399,32 @@ export default class SortingVisualizer extends React.Component {
     }
 
     sortingCompletedAnimation() {
-        const arrayBars = document.getElementsByClassName('array-bar');
-        const arrayLength = array_size;
-        for (let i = 0; i < arrayLength; i++) {
+        const ARRAY_BARS = document.getElementsByClassName('array-bar');
+        const BAR_ARRAY_LENGTH = ARRAY_BARS.length;
+        const ARRAY_SPEED = BAR_ARRAY_LENGTH > 300 ? ANIMATIONS_SPEED_MS * BAR_ARRAY_LENGTH / 3 : ANIMATIONS_SPEED_MS * BAR_ARRAY_LENGTH / 1.75;
+        for (let i = 0; i < BAR_ARRAY_LENGTH; i++) {
             setTimeout(() => {
                 functionCalled = true;
-                arrayBars[i].style.backgroundColor = 'lightgreen';
-            }, i * (ARRAY_SORT_COMPLETED_ANIMATION_SPEED_MS + ARRAY_COMPLETED_PULSE_ANIMATION_SPEED_MS));
+                ARRAY_BARS[i].style.backgroundColor = 'lightgreen';
+            }, (i + 1) * (ARRAY_SORT_COMPLETED_ANIMATION_SPEED_MS + ARRAY_COMPLETED_PULSE_ANIMATION_SPEED_MS));
         }
 
-        let pulse = 0;
+        let pulse = 1;
 
         for (let i = 0; i < NUMBER_OF_ANIMATION_PULSES; i++) {
             setTimeout(() => {
-                for (let i = 0; i < arrayLength; i++) {
-                    arrayBars[i].style.backgroundColor = 'turquoise';
+                for (let i = 0; i < BAR_ARRAY_LENGTH; i++) {
+                    ARRAY_BARS[i].style.backgroundColor = 'turquoise';
                 }
-            }, arrayLength > 300 ? pulse * ANIMATIONS_SPEED_MS * arrayLength / 3 : pulse * ANIMATIONS_SPEED_MS * arrayLength / 1.75);
+            }, BAR_ARRAY_LENGTH > 300 ? 1 + pulse * ARRAY_SPEED : 1 + pulse * ARRAY_SPEED);
 
             pulse += ARRAY_COMPLETED_PULSE_ANIMATION_SPEED_MS;
 
             setTimeout(() => {
-                for (let i = 0; i < arrayLength; i++) {
-                    arrayBars[i].style.backgroundColor = 'lightgreen';
+                for (let i = 0; i < BAR_ARRAY_LENGTH; i++) {
+                    ARRAY_BARS[i].style.backgroundColor = 'lightgreen';
                 }
-            }, arrayLength > 300 ? pulse * ANIMATIONS_SPEED_MS * arrayLength / 3 : pulse * ANIMATIONS_SPEED_MS * arrayLength / 1.75);
+            }, BAR_ARRAY_LENGTH > 300 ? 1 + pulse * ARRAY_SPEED: 1 + pulse * ARRAY_SPEED);
 
             pulse += ARRAY_COMPLETED_PULSE_ANIMATION_SPEED_MS;
         }
@@ -373,7 +432,7 @@ export default class SortingVisualizer extends React.Component {
         setTimeout(() => {
             functionCalled = false;
             this.sliderHover();
-        }, arrayLength > 300 ? pulse * ANIMATIONS_SPEED_MS * arrayLength / 3 : pulse * ANIMATIONS_SPEED_MS * arrayLength / 1.75);
+        }, BAR_ARRAY_LENGTH > 300 ? 1 + pulse * ARRAY_SPEED : 1 + pulse * ARRAY_SPEED);
     }
 }
 

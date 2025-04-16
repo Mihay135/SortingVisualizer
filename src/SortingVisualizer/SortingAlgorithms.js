@@ -6,10 +6,7 @@ export function mergeSort(array) {
     return animations;
 }
 
-export function quickSort(array) {
-    quickSortHelper(array, 0, array.length - 1);
-    return array;
-}
+
 
 export function heapSort(array){
     let workArray = array.slice();
@@ -28,6 +25,68 @@ export function heapSort(array){
     return animations;
 }
 
+export function quickSort(arr){
+    //Stack for storing start and end index
+    let stack = [];
+    let animations = [];
+    let workArray = arr.slice();
+    //Get the start and end index
+    let start = 0;
+    let end = arr.length - 1;
+    
+    //Push start and end index in the stack
+    stack.push({x: start, y: end});
+    
+    //Iterate the stack
+    while(stack.length){
+      //Get the start and end from the stack
+      const { x, y } = stack.shift();
+      
+      //Partition the array along the pivot
+      const PI = quickSortPartitionHigh(workArray, x, y, animations);
+      
+      //Push sub array with less elements than pivot into the stack
+      if(PI - 1 > x){
+        stack.push({x: x, y: PI - 1});
+      }
+      
+      //Push sub array with greater elements than pivot into the stack
+      if(PI + 1 < y){
+        stack.push({x: PI + 1, y: y});
+      }
+    }
+    return animations;
+  }
+
+function swap(arr, left, right){
+    const temp = arr[left]
+    arr[left] = arr[right]
+    arr[right] = temp;
+  }
+  
+function quickSortPartitionHigh(arr, low, high, animations){
+    //Pick the first element as pivot
+    let pivot = arr[high];
+    let i = low;
+    animations.push([high, pivot]);
+    //Partition the array into two parts using the pivot
+    for(let j = low; j < high; j++){
+        
+        if(arr[j] <= pivot){    
+        animations.push([i,j, arr[j], arr[i]]);
+        swap(arr, i, j);
+        i++;
+      }
+    }
+    
+    animations.push([i,high, arr[high], arr[i]]);
+    swap(arr, i, high);
+    
+    //Return the pivot index
+    return i;
+  }
+  
+
 function heapify(array, n, i, animations){
     let largest = i;
     let left = 2 * i + 1;
@@ -43,37 +102,6 @@ function heapify(array, n, i, animations){
     }
 
 }   
-
-function quickSortHelper(array, startIndex, endIndex) {
-    if (startIndex >= endIndex) return;
-    var pivotIndex = startIndex
-    var leftIndex = startIndex + 1
-    var rightIndex = endIndex
-    while (rightIndex >= leftIndex) {
-        if (array[leftIndex] > array[pivotIndex] && array[rightIndex] < array[pivotIndex]) {
-            array[leftIndex] = array[rightIndex];
-            array[rightIndex] = array[leftIndex];
-        }
-        if (array[leftIndex] <= array[pivotIndex]) {
-            leftIndex += 1;
-        }
-        if (array[rightIndex] >= array[pivotIndex]) {
-            rightIndex -= 1;
-        }
-    }
-    array[rightIndex] = array[pivotIndex];
-    array[pivotIndex] = array[rightIndex]
-    var leftSubArrayIsSmaller = rightIndex - 1 - startIndex < endIndex - (rightIndex + 1)
-    if (leftSubArrayIsSmaller) {
-        quickSortHelper(array, startIndex, rightIndex - 1);
-        quickSortHelper(array, rightIndex + 1, endIndex);
-    } else {
-        quickSortHelper(array, rightIndex + 1, endIndex);
-        quickSortHelper(array, startIndex, rightIndex - 1);
-    }
-
-
-}
 
 export function bubbleSort(array) {
     const animations = [];
