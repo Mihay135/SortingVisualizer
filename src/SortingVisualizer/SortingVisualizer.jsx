@@ -4,13 +4,19 @@ import { mergeSort, quickSort, heapSort, bubbleSort } from './SortingAlgorithms.
 
 const MIN_ARRAY_VALUE = 5;
 const MAX_ARRAY_VALUE = 1000;
-const MAX_ARRAY_SIZE = 900;
+const MAX_ARRAY_SIZE = 1000;
 const ARRAY_SORT_COMPLETED_ANIMATION_SPEED_MS = ANIMATIONS_SPEED_MS * 2;
 const ARRAY_COMPLETED_PULSE_ANIMATION_SPEED_MS = 1.25;
 const NUMBER_OF_ANIMATION_PULSES = 3;
+const ALGORITHMS = {
+    0: "Merge Sort",
+    1: "Quick Sort",
+    2: "Heap Sort",
+    3: "Bubble Sort"
+}
 
-var array_size = MAX_ARRAY_SIZE / (9/2);
-var ANIMATIONS_SPEED_MS = (8 / 3) * (MAX_ARRAY_SIZE / array_size);
+var array_size = Math.floor(MAX_ARRAY_SIZE / (9 / 2));
+var ANIMATIONS_SPEED_MS = Math.floor((8 / 3) * (MAX_ARRAY_SIZE / array_size));
 
 var selectedAlgorithm = 0;
 var firstRender = 1;
@@ -71,41 +77,42 @@ export default class SortingVisualizer extends React.Component {
                 <div class='hide-content'></div>
                 <div className='content'>
                     <div className="nav-bar">
-                        <ul>
-                            <li><button id="howToUseBtn" className='showPopUp' onClick={() => this.togglePopUp() }><strong>How To Use Sorting Visualizer</strong></button> </li>
-                            <li><button id='sortArrayBtn' onClick={() => this.sortArray()}>Sort Array</button></li>
-                            <li><button>
-                                <div className='sliderDiv'>
-                                    Current Array Size:  <span id="myValue" defaultValue={array_size}>{array_size}</span>
-                                </div>
-                                <label>10</label>
-                                <input
-                                    type="range"
-                                    id="myRange"
-                                    class="slider"
-                                    min="10"
-                                    max={MAX_ARRAY_SIZE}
-                                    defaultValue={array_size}
-                                    step="5"
-                                    onInput={() => this.updatedSlider()}
-                                    onMouseOver={() => this.sliderHover()}
-                                />
-                                <label>{MAX_ARRAY_SIZE}</label>
-                            </button>
-                            </li>
-                            <li><button id="generateNewArrayBtn" onClick={() => this.resetArray()}> Generate New Array</button></li>
-                            <li>
-                                <div class="drop-wrapper">
-                                    <button id="sortingAlgorithmsDropdownBtn" className='btn' data-target="dropright" onClick={() => this.dropMenu(1)}>Sorting Algorithms</button>
-                                    <div className="btn dropright-content-menu dropright inactive" id="dropright">
-                                        <button className='btn inactive' onClick={() => this.sortingAlgorithmsChooser(0)}>Merge Sort</button>
-                                        <button className='btn inactive' onClick={() => this.sortingAlgorithmsChooser(1)}>Quick Sort</button>
-                                        <button className='btn inactive' onClick={() => this.sortingAlgorithmsChooser(2)}>Heap Sort</button>
-                                        <button className='btn inactive' onClick={() => this.sortingAlgorithmsChooser(3)}>Bubble Sort</button>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
+                        <div id='howToUseDiv'>
+                            <button id="howToUseBtn" className='showPopUp' onClick={() => this.togglePopUp()}><strong>How To Use</strong></button>
+                        </div>
+                        <div id='sortArrayDiv'>
+                            <button id='sortArrayBtn' onClick={() => this.sortArray()}>Sort Array</button>
+                        </div>
+                        <div className='sliderDiv'>
+                            Current Array Size:  <span id="myValue" defaultValue={array_size}>{array_size}</span>
+                            <br />
+                            <label>10</label>
+
+                            <input
+                                type="range"
+                                id="myRange"
+                                class="slider"
+                                min="10"
+                                max={MAX_ARRAY_SIZE}
+                                defaultValue={array_size}
+                                step="5"
+                                onInput={() => this.updatedSlider()}
+                                onMouseOver={() => this.sliderHover()}
+                            />
+                            <label>{MAX_ARRAY_SIZE}</label>
+                        </div>
+                        <div id='generateNewArrayDiv'>
+                            <button id="generateNewArrayBtn" onClick={() => this.resetArray()}> Generate New Array</button>
+                        </div>
+                        <div class="drop-wrapper">
+                            <button id="sortingAlgorithmsDropdownBtn" className='btn' data-target="dropright" onClick={() => this.dropMenu(1)}>Sorting Algorithms</button>
+                            <div className="btn dropright-content-menu dropright inactive" id="dropright">
+                                <button className='btn inactive' onClick={() => this.sortingAlgorithmsChooser(0)}>Merge Sort</button>
+                                <button className='btn inactive' onClick={() => this.sortingAlgorithmsChooser(1)}>Quick Sort</button>
+                                <button className='btn inactive' onClick={() => this.sortingAlgorithmsChooser(2)}>Heap Sort</button>
+                                <button className='btn inactive' onClick={() => this.sortingAlgorithmsChooser(3)}>Bubble Sort</button>
+                            </div>
+                        </div>
                     </div>
                     <div className="array-container">
                         {
@@ -137,7 +144,7 @@ export default class SortingVisualizer extends React.Component {
         popUpText += 'It is also advised to use "<span class="emphasisText">Bubble Sort</span>" on <span class="emphasisText">small arrays</span> as it has a time <span class="emphasisText">complexity O(n<sup>2</sup>)</span>.</p><p>To <span class="emphasisText">Execute</span> the <span class="emphasisText">Sorting</span> function Simply Click "<span class="emphasisText">Sort Array</span>" and Enjoy the animation!</p>'
         if (!openPopup) {
             popUp[0].style.display = 'none';
-            backgroundElements[0].style.zIndex = '0';
+            backgroundElements[0].style.zIndex = '-1';
         } else {
             popUp[0].style.display = 'inline-block';
 
@@ -162,12 +169,11 @@ export default class SortingVisualizer extends React.Component {
     }
 
     sortingAlgorithmsChooser(algorithm) {
-        this.dropMenu(selectedAlgorithm);
-
         selectedAlgorithm = algorithm;
+        this.dropMenu(selectedAlgorithm);
     }
 
-    dropMenu(previous) {
+    dropMenu(current) {
         const buttons = document.getElementsByClassName('btn');
         for (const btn of buttons) {
             if (btn.classList.contains('active')) {
@@ -179,10 +185,12 @@ export default class SortingVisualizer extends React.Component {
             }
 
         }
+
         window.onclick = (e) => {
             if (!e.target.matches('button')) {
                 for (const btn of buttons) {
                     if (btn.id === 'sortingAlgorithmsDropdownBtn') continue;
+
                     btn.classList.remove('active');
                     btn.classList.add('inactive');
                 }
@@ -252,62 +260,46 @@ export default class SortingVisualizer extends React.Component {
     }
 
     quickSort() {
-        if(!isSorted){
+        if (!isSorted) {
             animations = quickSort(this.state.array);
             const arrayBars = document.getElementsByClassName('array-bar');
-            console.log(animations);
-            for(let i = 0; i < animations.length ; i++){
-                
-                if(animations[i].length !== 4){
+            for (let i = 0; i < animations.length; i++) {
+                if (animations[i].length !== 4) {
                     let color;
-                    for(let j = 0; j < 3; j++){
+                    for (let j = 0; j < 3; j++) {
                         setTimeout(() => {
                             let arrayBar = arrayBars[animations[i][0]];
                             let barOneValue = animations[i][1];
                             color = j % 2 === 1 ? "turquoise" : "grey";
                             arrayBar.style.backgroundColor = color;
                             arrayBar.style.height = `${barOneValue * 0.09}vh`;
-                        }, (2 * (j + i - 1))*ANIMATIONS_SPEED_MS * 3);
-                        
+                        }, (2 * (j + i - 1)) * ANIMATIONS_SPEED_MS * 3);
                     }
-                    
-                    console.log("new pivot: " + animations[i]);
-                }else{
-
+                } else {
                     let barOne = arrayBars[animations[i][0]];
                     let barOneValue = animations[i][2];
                     let barTwo = arrayBars[animations[i][1]];
                     let barTwoValue = animations[i][3];
-                    
+
                     setTimeout(() => {
                         barOne.style.backgroundColor = "red";
                         barTwo.style.backgroundColor = "red";
-                    }, (( 2 * i))*ANIMATIONS_SPEED_MS * 3);
-                    
-                    
+                    }, ((2 * i)) * ANIMATIONS_SPEED_MS * 3);
+
                     setTimeout(() => {
-                        
+
                         barOne.style.backgroundColor = "turquoise";
                         barTwo.style.backgroundColor = "turquoise";
                         barOne.style.height = `${barOneValue * 0.09}vh`;
                         barTwo.style.height = `${barTwoValue * 0.09}vh`;
-                        // barOne.innerHTML = barOneValue ;
-                        // barTwo.innerHTML = barTwoValue ;
-                        
-                        
                     }, (2 * i + 1) * ANIMATIONS_SPEED_MS * 3);
-                    
-                    
-
-                    
-                    console.log("new comparison: " + animations[i][0] + ", "+ animations[i][2] + ", " + animations[i][1] + ", "+animations[i][3]);
                 }
             }
             setTimeout(() => {
                 isSorted = true;
                 this.sortingCompletedAnimation();
-            }, ((2*animations.length) * ANIMATIONS_SPEED_MS * 3));
-        }else{
+            }, ((2 * animations.length) * ANIMATIONS_SPEED_MS * 3));
+        } else {
             setTimeout(() => {
                 this.sortingCompletedAnimation();
             }, ANIMATIONS_SPEED_MS);
@@ -315,41 +307,40 @@ export default class SortingVisualizer extends React.Component {
     }
 
     heapSort() {
-        if(!isSorted){
+        if (!isSorted) {
             animations = heapSort(this.state.array);
-            console.log(animations);
             const arrayBars = document.getElementsByClassName('array-bar');
-            for(let i = 0; i < animations.length; i++){
+            for (let i = 0; i < animations.length; i++) {
                 const barOneIndex = animations[i][0];
                 const barTwoIndex = animations[i][1];
                 const barOneValue = animations[i][2];
                 const barTwoValue = animations[i][3];
                 const barOneStyle = arrayBars[barOneIndex].style;
                 const barTwoStyle = arrayBars[barTwoIndex].style;
-                for(let j = 0; j <= 4; j++){
-                    if(j !== 4){
+                for (let j = 0; j <= 4; j++) {
+                    if (j !== 4) {
                         const color = j % 3 === 0 ? 'red' : 'turquoise';
                         setTimeout(() => {
                             barOneStyle.backgroundColor = color;
                             barTwoStyle.backgroundColor = color;
-                        }, (j + (i) * ANIMATIONS_SPEED_MS *3));
-                    }else{
+                        }, (j + (i) * ANIMATIONS_SPEED_MS * 3));
+                    } else {
                         setTimeout(() => {
                             barOneStyle.height = `${barTwoValue * 0.09}vh`;
                             barOneStyle.backgroundColor = 'turquoise';
-                        }, (j + (i + 1) * ANIMATIONS_SPEED_MS *3));
+                        }, (j + (i + 1) * ANIMATIONS_SPEED_MS * 3));
                         setTimeout(() => {
                             barTwoStyle.height = `${barOneValue * 0.09}vh`;
                             barTwoStyle.backgroundColor = 'turquoise';
-                        }, (j + (i + 1) * ANIMATIONS_SPEED_MS *3));
+                        }, (j + (i + 1) * ANIMATIONS_SPEED_MS * 3));
                     }
                 }
             }
             setTimeout(() => {
                 isSorted = true;
                 this.sortingCompletedAnimation();
-            }, ((animations.length + 2) * ANIMATIONS_SPEED_MS *3));
-        }else{
+            }, ((animations.length + 2) * ANIMATIONS_SPEED_MS * 3));
+        } else {
             setTimeout(() => {
                 this.sortingCompletedAnimation();
             }, (ANIMATIONS_SPEED_MS));
@@ -375,7 +366,6 @@ export default class SortingVisualizer extends React.Component {
                 } else {
                     if (animations[i] !== null && animations[i] !== 'undefined') {
                         const [barOneIndex, barOneValue, barTwoIndex, barTwoValue] = animations[i];
-                        console.log(animations[i]);
                         setTimeout(() => {
                             const barOne = arrayBars[barOneIndex];
                             const barTwo = arrayBars[barTwoIndex];
@@ -424,7 +414,7 @@ export default class SortingVisualizer extends React.Component {
                 for (let i = 0; i < BAR_ARRAY_LENGTH; i++) {
                     ARRAY_BARS[i].style.backgroundColor = 'lightgreen';
                 }
-            }, BAR_ARRAY_LENGTH > 300 ? 1 + pulse * ARRAY_SPEED: 1 + pulse * ARRAY_SPEED);
+            }, BAR_ARRAY_LENGTH > 300 ? 1 + pulse * ARRAY_SPEED : 1 + pulse * ARRAY_SPEED);
 
             pulse += ARRAY_COMPLETED_PULSE_ANIMATION_SPEED_MS;
         }

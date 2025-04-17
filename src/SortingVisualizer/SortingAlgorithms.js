@@ -8,24 +8,23 @@ export function mergeSort(array) {
 
 
 
-export function heapSort(array){
+export function heapSort(array) {
     let workArray = array.slice();
     const n = array.length;
     let animations = [];
-    for(let i = Math.floor(n / 2) - 1; i >= 0; i--){
+    for (let i = Math.floor(n / 2) - 1; i >= 0; i--) {
         heapify(workArray, n, i, animations);
     }
 
-    for(let i = n - 1; i > 0; i--){
+    for (let i = n - 1; i > 0; i--) {
         animations.push([0, i, workArray[0], workArray[i]]);
         [workArray[0], workArray[i]] = [workArray[i], workArray[0]];
         heapify(workArray, i, 0, animations);
     }
-    console.log(workArray);
     return animations;
 }
 
-export function quickSort(arr){
+export function quickSort(arr) {
     //Stack for storing start and end index
     let stack = [];
     let animations = [];
@@ -33,75 +32,75 @@ export function quickSort(arr){
     //Get the start and end index
     let start = 0;
     let end = arr.length - 1;
-    
+
     //Push start and end index in the stack
-    stack.push({x: start, y: end});
-    
+    stack.push({ x: start, y: end });
+
     //Iterate the stack
-    while(stack.length){
-      //Get the start and end from the stack
-      const { x, y } = stack.shift();
-      
-      //Partition the array along the pivot
-      const PI = quickSortPartitionHigh(workArray, x, y, animations);
-      
-      //Push sub array with less elements than pivot into the stack
-      if(PI - 1 > x){
-        stack.push({x: x, y: PI - 1});
-      }
-      
-      //Push sub array with greater elements than pivot into the stack
-      if(PI + 1 < y){
-        stack.push({x: PI + 1, y: y});
-      }
+    while (stack.length) {
+        //Get the start and end from the stack
+        const { x, y } = stack.shift();
+
+        //Partition the array along the pivot
+        const PI = quickSortPartitionHigh(workArray, x, y, animations);
+
+        //Push sub array with less elements than pivot into the stack
+        if (PI - 1 > x) {
+            stack.push({ x: x, y: PI - 1 });
+        }
+
+        //Push sub array with greater elements than pivot into the stack
+        if (PI + 1 < y) {
+            stack.push({ x: PI + 1, y: y });
+        }
     }
     return animations;
-  }
+}
 
-function swap(arr, left, right){
+function swap(arr, left, right) {
     const temp = arr[left]
     arr[left] = arr[right]
     arr[right] = temp;
-  }
-  
-function quickSortPartitionHigh(arr, low, high, animations){
+}
+
+function quickSortPartitionHigh(arr, low, high, animations) {
     //Pick the first element as pivot
     let pivot = arr[high];
     let i = low;
     animations.push([high, pivot]);
     //Partition the array into two parts using the pivot
-    for(let j = low; j < high; j++){
-        
-        if(arr[j] <= pivot){    
-        animations.push([i,j, arr[j], arr[i]]);
-        swap(arr, i, j);
-        i++;
-      }
+    for (let j = low; j < high; j++) {
+
+        if (arr[j] <= pivot) {
+            animations.push([i, j, arr[j], arr[i]]);
+            swap(arr, i, j);
+            i++;
+        }
     }
-    
-    animations.push([i,high, arr[high], arr[i]]);
+
+    animations.push([i, high, arr[high], arr[i]]);
     swap(arr, i, high);
-    
+
     //Return the pivot index
     return i;
-  }
-  
+}
 
-function heapify(array, n, i, animations){
+
+function heapify(array, n, i, animations) {
     let largest = i;
     let left = 2 * i + 1;
     let right = 2 * i + 2;
 
-    if(left < n && array[left] > array[largest]) largest = left;
-    if(right < n && array[right] > array[largest]) largest = right;
-    
-    if(largest !== i){
+    if (left < n && array[left] > array[largest]) largest = left;
+    if (right < n && array[right] > array[largest]) largest = right;
+
+    if (largest !== i) {
         animations.push([i, largest, array[largest], array[i]]);
         [array[i], array[largest]] = [array[largest], array[i]];
         heapify(array, n, largest, animations);
     }
 
-}   
+}
 
 export function bubbleSort(array) {
     const animations = [];
