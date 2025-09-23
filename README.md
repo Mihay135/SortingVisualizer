@@ -1,3 +1,17 @@
+## Sorting Visualizer 📊
+
+**Sorting Visualizer is a fun visualizer for a few of the most popular sorting algorithms using React app. It shows how the algorithms execute the sorting of the elements by animating the process. It features a slider to increment the array size of random numbers that represent the elements to be sorted as vertical bars, the algorithm choice and a reset button to interrupt the current execution and generate a new array. It also has a button to explain how the tool works**
+
+## 📸 Screenshots
+| **App View** |
+|----------------|
+|![How To Use Button](images/how_to_use_btn.png) |
+| **How To Use** |
+| ![Choose the Algorithm Button](images/algorith_choice.png) | 
+| **Choose the desired Algorithm (QuickSort by default)** |
+|![Press Sort Button to see the animation play](images/sorting_animation.gif) |
+| *Press Sort Button to see the animation play!* | 
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
