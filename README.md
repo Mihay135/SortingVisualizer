@@ -9,8 +9,7 @@
 | **How To Use** |
 | ![Choose the Algorithm Button](media/algorithm_choice_btn.png) | 
 | **Choose the desired Algorithm (QuickSort by default)** |
-|![Press Sort Button to see the animation play](media/sorting_animation1.mp4) |
-| *Press Sort Button to see the animation play!* | 
+| **Press Sort Button to see the animation play!** | 
 
 # Getting Started with Create React App
 
