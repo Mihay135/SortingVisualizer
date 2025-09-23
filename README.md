@@ -7,7 +7,7 @@
 |----------------|
 |![How To Use Button](media/how_to_use_btn.png) |
 | **How To Use** |
-| ![Choose the Algorithm Button](media/algorith_choice.png) | 
+| ![Choose the Algorithm Button](media/algorith_choice_btn.png) | 
 | **Choose the desired Algorithm (QuickSort by default)** |
 |![Press Sort Button to see the animation play](media/sorting_animation.gif) |
 | *Press Sort Button to see the animation play!* | 
