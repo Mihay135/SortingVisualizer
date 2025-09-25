@@ -91,17 +91,17 @@ This generates a production-ready build in the build/ folder.
   - Animations are slowed down to help users understand how each algorithm works, not to reflect actual computation speed.
 
 
-### 📂Project Structure
+### 📂Project Structure (simplified)
 ```
 SortingVisualizer/
 |-- public/
 │   |-- index.html            # Main HTML file
 │   |-- favicon.ico           # App favicon
+|   |...                      # Other files from React app
 |-- src/
 │   |-- App.js                # Main React component
-│   |-- components/           # Sorting controls and visualization components
-│   |-- algorithms/           # Sorting algorithm implementations
-│   |-- styles/               # CSS for UI and animations
+│   |-- SortingVisualizer/    # App logic
+|   |...                      # Other files from React app
 |-- build/                    # React Build
 |-- node_modules/             # Node modules
 |-- media/                    # Folder for screenshots
@@ -153,6 +153,8 @@ This project is licensed under the MIT License. See the LICENSE file for details
 - Inspired by algorithm visualization tools like VisuAlgo.
 - Thanks to the open-source community for endless inspiration!
 
+### Feel Free to Reach out if you want to connect!
+You can find my email or linkedin at my profile page https://github.com/Mihay135/
 
 
 
