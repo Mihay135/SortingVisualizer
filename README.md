@@ -50,7 +50,7 @@ Otherwise you can use your own computer following these steps:
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/your-username/SortingVisualizer.git
+git clone https://github.com/mihay135/SortingVisualizer.git
 cd SortingVisualizer
 ```
 
