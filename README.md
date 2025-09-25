@@ -10,7 +10,8 @@
 | ![Choose the Algorithm Button](media/algorithm_choice_btn.png) | 
 | **Choose the desired Algorithm (QuickSort by default)** |
 | **Choose the array size with the slider** |
-| **Press Sort Button to see the animation play!** | 
+| **Press Sort Button to see the animation play!** |
+| ![Choose the Algorithm Button](media/animation_playing.png) |
 
 ## ✨ Features
 
