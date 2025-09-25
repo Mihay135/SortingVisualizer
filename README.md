@@ -156,6 +156,7 @@ This project is licensed under the MIT License. See the LICENSE file for details
 ### Feel Free to Reach out if you want to connect!
 You can find my email or linkedin at my profile page https://github.com/Mihay135/
 
+Built with 💻 and ☕ by Mihay135. Star ⭐ this repo if you find it useful!
 
 
 
