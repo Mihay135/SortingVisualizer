@@ -149,7 +149,7 @@ This project is licensed under the MIT License. See the LICENSE file for details
 
 ### 👐Acknowledgments
 
-- **<a href="https://reactjs.org/">React</a>** for the awesome frontend framework.
+- **<a href="https://reactjs.org/">React</a>** for the awesome frontend library.
 - Inspired by algorithm visualization tools like VisuAlgo.
 - Thanks to the open-source community for endless inspiration!
 
