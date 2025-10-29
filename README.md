@@ -31,7 +31,7 @@
 
 ## 🛠️ Technologies Used
 
-- **React.js**: Frontend framework for the single-page app.
+- **React.js**: Frontend library for the single-page app.
 - **JavaScript**: Core logic for sorting algorithms and animations.
 - **HTML/CSS**: Styling for the minimalistic UI and bar visualizations.
 - **Node.js/NPM**: For project setup and dependency management.
